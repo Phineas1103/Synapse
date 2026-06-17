@@ -1,0 +1,31 @@
+{
+  "llm": {
+    "provider": "openai",
+    "base_url": "https://api.openai.com/v1",
+    "api_key": "",
+    "model": "gpt-4o",
+    "endpoint_type": "",
+    "custom_endpoint": ""
+  },
+  "image": {
+    "provider": "openai",
+    "base_url": "https://api.openai.com/v1",
+    "api_key": "",
+    "model": "gpt-image-2",
+    "endpoint_type": "",
+    "custom_endpoint": ""
+  },
+  "video": {
+    "provider": "grok",
+    "base_url": "https://api.x.ai/v1",
+    "api_key": "",
+    "model": "grok-2-vision",
+    "endpoint_type": "",
+    "custom_endpoint": ""
+  },
+  "project": {
+    "clip_duration": 10,
+    "art_style": "anime",
+    "language": "zh"
+  }
+}

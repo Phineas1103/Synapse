@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse - 许可证激活</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px;
+            width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .logo img {
+            height: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .btn-activate {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+        
+        .btn-activate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-activate:active {
+            transform: translateY(0);
+        }
+        
+        .btn-activate:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .status {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+        
+        .status.success {
+            background: rgba(72, 199, 142, 0.2);
+            border: 1px solid rgba(72, 199, 142, 0.3);
+            color: #48c78e;
+            display: block;
+        }
+        
+        .status.error {
+            background: rgba(255, 99, 71, 0.2);
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            color: #ff6347;
+            display: block;
+        }
+        
+        .status.loading {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            display: block;
+        }
+        
+        .footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .offline-notice {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 8px;
+            font-size: 12px;
+            color: #ffc107;
+            text-align: center;
+            display: none;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>Synapse</h1>
+            <p>AI漫剧创作平台</p>
+        </div>
+        
+        <div class="form-group">
+            <label>许可证密钥</label>
+            <input 
+                type="text" 
+                id="licenseKey" 
+                placeholder="SYN-XXXX-XXXX-XXXX-XXXX"
+                autocomplete="off"
+                spellcheck="false"
+            >
+        </div>
+        
+        <button class="btn-activate" id="btnActivate" onclick="activate()">
+            激活
+        </button>
+        
+        <div class="status" id="status"></div>
+        <div class="offline-notice" id="offlineNotice">
+            离线模式：验证信息已缓存，最多可离线使用7天
+        </div>
+        
+        <div class="footer">
+            <p>Synapse License System v1.0</p>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://124.221.179.140';
+        
+        function setStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function clearStatus() {
+            const statusEl = document.getElementById('status');
+            statusEl.className = 'status';
+            statusEl.style.display = 'none';
+        }
+        
+        function activate() {
+            const keyInput = document.getElementById('licenseKey');
+            const btn = document.getElementById('btnActivate');
+            const key = keyInput.value.trim().toUpperCase();
+            
+            // 验证格式
+            if (!key.match(/^SYN-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/)) {
+                setStatus('卡密格式错误，应为 SYN-XXXX-XXXX-XXXX-XXXX', 'error');
+                keyInput.classList.add('shake');
+                setTimeout(() => keyInput.classList.remove('shake'), 500);
+                return;
+            }
+            
+            // 禁用按钮
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>正在激活...';
+            setStatus('正在连接服务器...', 'loading');
+            
+            // 发送激活请求
+            fetch(`${API_BASE}/api/activate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    license_key: key,
+                    fingerprint: 'client-side-fingerprint'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setStatus(`激活成功！有效期至：${data.expires_at}`, 'success');
+                    document.getElementById('offlineNotice').style.display = 'block';
+                    
+                    // 保存到本地存储
+                    localStorage.setItem('synapse_license', JSON.stringify({
+                        license_key: key,
+                        expires_at: data.expires_at,
+                        activated_at: new Date().toISOString()
+                    }));
+                    
+                    // 2秒后跳转
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 2000);
+                } else {
+                    setStatus(data.message || '激活失败', 'error');
+                    keyInput.classList.add('shake');
+                    setTimeout(() => keyInput.classList.remove('shake'), 500);
+                }
+            })
+            .catch(error => {
+                setStatus('网络错误，请检查网络连接', 'error');
+                console.error('Activation error:', error);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = '激活';
+            });
+        }
+        
+        // 回车键激活
+        document.getElementById('licenseKey').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                activate();
+            }
+        });
+        
+        // 自动格式化输入
+        document.getElementById('licenseKey').addEventListener('input', function(e) {
+            let value = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+            if (value.length > 19) value = value.substr(0, 19);
+            
+            // 自动添加连字符
+            let formatted = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i === 4 || i === 8 || i === 12 || i === 16) {
+                    formatted += '-';
+                }
+                formatted += value[i];
+            }
+            
+            this.value = formatted;
+        });
+        
+        // 检查是否已激活
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('synapse_license');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    const expires = new Date(data.expires_at);
+                    if (expires > new Date()) {
+                        setStatus('已激活，正在跳转...', 'success');
+                        setTimeout(() => {
+                            window.location.href = '/index.html';
+                        }, 1000);
+                    }
+                } catch (e) {
+                    localStorage.removeItem('synapse_license');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

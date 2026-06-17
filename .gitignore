@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+
+# Local config and secrets
+user_config.json
+license_cache.json
+*.log
+.env
+.env.*
+
+# Local data
+projects/
+漫剧/
+
+# Build outputs
+build/
+dist/
+installer_output/
+release/
+*.spec.bak
+manju.spec
+
+# Large local runtime binaries
+tools/
+
+# Backups
+*.bak
+*.backup
+*.bak_*
+*.bak2
+*_backup
+*_rate_limit
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local automation artifacts
+.claude/
+.playwright-mcp/
+click_confirm.json
+page-*.png
+projects-*.png
+studio-*.png
+verification_screenshot_*.png

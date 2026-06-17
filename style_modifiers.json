@@ -1,0 +1,83 @@
+{
+  "tone": [
+    {
+      "id": "warm_tones",
+      "name": "暖色调",
+      "prompt": "warm amber color grading, golden color cast onto outfits, soft orange highlights"
+    },
+    {
+      "id": "cool_tones",
+      "name": "冷色调",
+      "prompt": "cool blue digital color science, icy desaturated skin undertones, cold color cast"
+    },
+    {
+      "id": "high_saturation",
+      "name": "高饱和",
+      "prompt": "vivid highly saturated color profiles, punchy vibrant palette, intense chromatic richness"
+    },
+    {
+      "id": "low_saturation",
+      "name": "低饱和",
+      "prompt": "desaturated muted color grading, subtle faded palette, restrained chromatic range"
+    },
+    {
+      "id": "monochrome",
+      "name": "单色",
+      "prompt": "monochromatic single-tone palette grading, clean unified tonal gradation"
+    }
+  ],
+  "lighting": [
+    {
+      "id": "natural_light",
+      "name": "自然光",
+      "prompt": "soft natural daylight temperature calibration, gentle ambient illumination"
+    },
+    {
+      "id": "neon_glow",
+      "name": "霓虹光",
+      "prompt": "vivid neon colorful light spill reflections neatly mapped onto skin and clothing borders"
+    },
+    {
+      "id": "dramatic_light",
+      "name": "戏剧光",
+      "prompt": "high-definition directional key light styling to sculpt precise garment shapes"
+    },
+    {
+      "id": "moonlight",
+      "name": "月光",
+      "prompt": "cool silver moonlight ambiance replication, soft lunar glow accenting edges"
+    },
+    {
+      "id": "cinematic_light",
+      "name": "电影光",
+      "prompt": "cinematic three-point master studio lighting setup, professional film-grade illumination"
+    }
+  ],
+  "texture": [
+    {
+      "id": "matte",
+      "name": "磨砂质感",
+      "prompt": "matte non-reflective surface rendering, smooth anti-glare finish, subtle surface grain"
+    },
+    {
+      "id": "glass",
+      "name": "玻璃质感",
+      "prompt": "translucent glassy luster reflections, crystalline refractive light distortion on hardware accessories"
+    },
+    {
+      "id": "metallic",
+      "name": "金属质感",
+      "prompt": "polished metallic textures, reflective steel surfaces, specular highlights on metal hardware"
+    },
+    {
+      "id": "ink_diffusion",
+      "name": "水墨晕染",
+      "prompt": "fine artistic ink line transitions, subtle watercolor wash aesthetics restricted to clothing design"
+    },
+    {
+      "id": "oil_impasto",
+      "name": "油画厚涂",
+      "prompt": "visible stylized brushstroke textures, painterly digital impasto overlay finish"
+    }
+  ]
+}

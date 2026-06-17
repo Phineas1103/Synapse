@@ -1,0 +1,98 @@
+[
+  {
+    "id": "ink_wash",
+    "name": "国潮水墨",
+    "name_en": "Chinese Ink Wash",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, ultimate stylized semi-realistic, Unreal Engine 5 (UE5) Lumen global illumination, Octane Render physical accuracy, top-tier traditional Chinese ink wash aesthetic, 3D ink particle fluid dynamic simulation, advanced monochrome mapping, rich charcoal black interwoven with misty cool gray, perfect rim light and contour lighting. Masterpiece 3D semi-realistic character modeling, ZBrush extreme facial topology sculpting, Eastern bone structure aesthetic, 4K SSS (Subsurface Scattering) simulated skin material, flawless porcelain feel, ultra-high precision microscopic pore texture, XGen realistic physical hair simulation with distinct individual strands, crystal clear 3D eyeball refraction highlights, physical drag and gravity sag of premium silk fabric, vivid micro-expressions. Breathtaking 3D ethereal environment, profound atmospheric perspective, mist-shrouded 3D silhouettes of mountain ranges, tranquil and deep volumetric bamboo forest, dynamic water reflection simulating handmade rice paper fiber texture, 3D ink splashes dynamically orbiting the character and environment, creating intense spatial depth and visual impact. STRICTLY PROHIBITED: NO flat 2D manga, NO traditional cel-shading, NO photorealistic live-action humans, NO cheap 3D game look, NO metallic gold accents.",
+    "tone": "cool",
+    "lighting": "natural"
+  },
+  {
+    "id": "cyber_guoman",
+    "name": "赛博国漫",
+    "name_en": "Cyber Guoman",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, stylized semi-realistic, peak fusion of cyberpunk and classical Chinese aesthetics, ray tracing reflections, global ambient occlusion (AO), high-contrast PBR (Physically Based Rendering) material textures, brilliant neon halo emission maps. Flawless 3D semi-realistic stylized human anatomy, extremely fine facial polygon modeling, stoic mechanical micro-expressions, skin with delicate matte texture and subsurface scattering, complex 3D hard-surface tech armor details showing visible brushed metal and seams, intertwined with hyper-realistic heavy embroidery silk physical simulation, glowing LED cyber-meridian lines embedded in skin. Extremely high-polygon neon futuristic metropolis background, towering holographic projection mechanical pagodas, rain-slicked cyber streets reflecting neon lights, cyber-textured glowing digital auspicious clouds, layered three-dimensional cityscapes, cinematic spatial depth. STRICTLY PROHIBITED: NO 2D cel-shading, NO flat manga styles, NO photorealistic live-action humans, NO 2D flat textures.",
+    "tone": "cool",
+    "lighting": "neon"
+  },
+  {
+    "id": "anime_shinkai",
+    "name": "日漫·新海诚",
+    "name_en": "Anime Shinkai",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, Japanese aesthetic stylized semi-realistic, Makoto Shinkai aesthetic materialized in 3D, cinematic volumetric light dispersion, ultra-pure bright color grading, soft ambient diffuse reflection, rich soft sky color transitions, intense Tyndall effect. Exquisitely sculpted 3D stylized beautiful facial features, perfectly eliminating rough realistic human traits, extremely soft and warm skin subsurface scattering, highly detailed 3D pupil structure and lens reflection, high-dynamic hair simulation blowing in the breeze, clothing material showing soft cotton, linen and knit textures, perfect skin quality like a soft-focus filter. Ultra-detailed grand 3D environment, massive cumulonimbus cloud 3D models with tension and oppression, real lens flare piercing through a beautiful sunset, glowing and metallic reflective train crossing signals, ultra-fine modern architectural geometry, profound and breathtaking atmospheric depth of field. STRICTLY PROHIBITED: NO flat 2D animation, NO traditional hand-drawn cel-shading, NO photorealistic live-action humans, NO stiff 3D plastic feel.",
+    "tone": "neutral",
+    "lighting": "natural"
+  },
+  {
+    "id": "cyberpunk_anime",
+    "name": "赛博朋克动漫",
+    "name_en": "Cyberpunk Anime",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, hardcore dystopian cyberpunk stylized semi-realistic, anamorphic lens flare, intense light and shadow contrast, heavy industrial exhaust volumetric fog, high-intensity UV and acid-green neon diffuse reflection, highly destructive material rendering. Impeccable 3D semi-realistic skeletal topology, synthetic bionic skin with subtle wear marks, precisely sculpted mechanical cybernetic implants with hydraulic tubes and carbon fiber shells, glowing optical tech prosthetic eyes with real glass refractive index, clothing showing high-precision waterproof techwear fabrics and matte leather wrinkles, realistic water droplet simulation sliding on skin and metal surfaces. Suffocating high-density 3D industrial environment, sci-fi mega-structures towering into the clouds, intricate 3D industrial cables and pipes, suspended giant holographic billboards, rough rusted metal walls, intense purple and green neon lights physically reflecting in water puddles. STRICTLY PROHIBITED: NO 2D flat manga, NO retro hand-drawn animation, NO photorealistic live-action humans, NO 2D flat coloring.",
+    "tone": "cool",
+    "lighting": "neon"
+  },
+  {
+    "id": "imperial_court",
+    "name": "中国宫廷",
+    "name_en": "Chinese Imperial Court",
+    "prompt": "[Rendering Style: Absolute Photorealistic Photography] Absolute photorealistic extreme realism, 8K native resolution (RAW), shot on ARRI Alexa 65 top-tier cinema camera, Panavision macro lens, top-tier Hollywood film industry DI color grading, profound and rich traditional Chinese mineral colors, extremely delicate light and shadow transitions, perfect HDR, oppressive royal majestic atmosphere. Absolutely real human subject, extremely subtle micro-expressions and facial muscle movements, ultra-macro real human skin texture, visible microscopic pores, skin texture, tiny flaws and peach fuzz, natural diffuse reflection of hair strands under light, extremely luxurious ancient court attire with ultra-high-definition gold and silver inlaid embroidery patterns, real silk luster, heavy brocade physical drape. Awe-inspiring grand ancient Chinese imperial palace real-life setting, palace interior space with immense depth, giant vermilion solid wood pillars, extremely complex pure gold coiled dragon carving details, luxurious and crystal-clear natural jade decorations, profound Rembrandt lighting, volumetric light projecting on tiny dust particles in the air, forming a strong sense of imperial majesty and grandeur. STRICTLY PROHIBITED: NO 3D CGI feel, NO semi-realistic models, NO manga or anime styles, NO modern elements, NO cyberpunk, NO mediocre photo studio style.",
+    "tone": "warm",
+    "lighting": "natural"
+  },
+  {
+    "id": "wuxia_film",
+    "name": "古装武侠",
+    "name_en": "Wuxia Film",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, palace-level Chinese classical stylized semi-realistic, cinematic martial arts blockbuster texture, extremely soft global ambient light, delicate volumetric sunlight refraction, extremely pure Chinese classical color aesthetic with traditional mineral tones, perfect rim backlight rendering. Ultra-high-precision stylized 3D semi-realistic facial features, ethereal and flawless ancient Chinese beauty and swordsman bone structure, extremely delicate and moist jade-like skin texture with strong SSS light transmission, classical micro-expressions captured in the eyes and brows, XGen generated highly dynamic long hair dancing wildly in the wind, complex ancient clothing materials showing visible 3D weaving of Shu brocade and gauze, heavy physical dynamic simulation of the hem. Breathtaking high-detail 3D ancient martial arts ecological environment, intensely swaying 3D emerald bamboo forest in the wind, autumn leaf particle systems falling in 3D space, magnificent and ornately carved classical pavilions 3D models, intense volumetric god rays piercing through dense foliage, highly narrative massive spatial depth of field. STRICTLY PROHIBITED: NO live-action photorealism, NO 2D flat manga, NO modern elements, NO cyberpunk, NO industrial or sci-fi elements, NO cheap plastic feel.",
+    "tone": "neutral",
+    "lighting": "natural"
+  },
+  {
+    "id": "modern_urban",
+    "name": "现代都市",
+    "name_en": "Modern Urban",
+    "prompt": "[Rendering Style: Absolute Photorealistic Photography] Absolute photorealistic extreme realism, top-tier commercial fashion and street photography, shot on Hasselblad medium format camera, 85mm f/1.2 ultra-large aperture prime lens, extremely sharp in-focus imaging, perfect optical bokeh melting like cream, top-tier commercial studio three-point lighting mixed with natural street light sources. Absolutely real human subject, flawless yet absolutely realistic human skin structure, visible pores and skin texture details at ultra-high resolution, natural and vivid eye catchlights, real fabric physical textures with clearly visible wool coat weaving texture and tiny wrinkles of cotton shirts. Highly detailed bustling modern urban street scene, composition with extreme spatial layers, background is towering giant glass curtain wall skyscrapers reflecting blinding sunlight, traffic light trails blurred by large aperture, exquisite and lively modern cafe storefronts, perfectly peeling the real person away from complex modern architectural geometry through extreme shallow depth of field. STRICTLY PROHIBITED: NO 3D CGI feel, NO semi-realistic models, NO manga, NO anime, NO stylized illustrations, NO AI plastic skin.",
+    "tone": "neutral",
+    "lighting": "natural"
+  },
+  {
+    "id": "eastern_xianxia",
+    "name": "东方仙侠",
+    "name_en": "Eastern Xianxia",
+    "prompt": "[Rendering Style: Absolute Photorealistic Photography] Absolute photorealistic extreme realism, top-tier cinematic Eastern fantasy live-action blockbuster screenshot, extreme wide aspect ratio, perfect synthesis of Hollywood-level VFX and real photography, extremely ethereal and glamorous cinematic color grading, contrast and interweaving of cool and warm light sources, dreamy and highly realistic optical refraction and atmospheric scattering. Absolutely real human actor subject, exceptionally superior Eastern real facial bone structure, ultra-microscopic real human skin details with pores and fine lines, real human hair strands with true elasticity and reflectance, extremely meticulous real ancient Xianxia clothing with layered flowing real silk chiffon and exquisite pure hand-embroidered macro details, rejecting any fake plastic feel. Breathtaking grand Xianxia cultivation environment live-action feel, real rugged mountain peaks layered upon each other supplemented by highly realistic VFX mist, textures of giant floating mountain rocks clearly visible, fantasy plants emitting real biological fluorescence, extremely realistic water ripples and ethereal aurora reflections on the lake surface, ancient celestial giant solid wood and stone carving architectural complexes looming in the mist, unparalleled mythological epic spatial scale. STRICTLY PROHIBITED: ABSOLUTELY NO 3D CGI feel, NO semi-realistic models, NO manga or anime, NO modern elements, NO cyberpunk, NO Western fantasy elements.",
+    "tone": "neutral",
+    "lighting": "natural"
+  },
+  {
+    "id": "steampunk",
+    "name": "蒸汽朋克",
+    "name_en": "Steampunk",
+    "prompt": "[Rendering Style: Absolute Photorealistic Photography] Absolute photorealistic extreme realism, heavy industrial Victorian era cinematic photography, Kodak retro cinematic film texture, extremely sharp micro-contrast, heavy retro amber and dark brass sepia tone color grading, oppressive backlight and rim lighting. Absolutely real human subject, real human facial features full of storytelling, ultra-high detail rough skin texture, clearly visible pores, fine lines, and realistic reflections of trace machine oil smudges mixed with sweat, extremely hardcore retro clothing textures with real worn heavy matte cowhide texture and oxidized pure copper goggles details. Extremely high-density heavy industrial steampunk underground workshop or Victorian industrial street, suffocating mechanical megalophobia, giant polished brass boilers, extremely complex real interlocking clockwork and meshing gears, rusted pipes spraying high-pressure steam, copper pneumatic gauges emitting gloomy light, air filled with real soot particles and steam white mist, a heavy industrial space with immense oppression and depth. STRICTLY PROHIBITED: NO 3D CGI feel, NO semi-realistic models, NO manga or anime, NO clean and tidy modern feel, NO cyber neon.",
+    "tone": "warm",
+    "lighting": "natural"
+  },
+  {
+    "id": "film_noir",
+    "name": "黑色电影",
+    "name_en": "Film Noir",
+    "prompt": "[Rendering Style: Absolute Photorealistic Photography] Absolute photorealistic extreme realism, classic 1950s Hollywood forensic-level archival photography, pure monochrome black and white photography, Ilford HP5 top-tier black and white film texture, extremely intense chiaroscuro, extreme shadow depiction, extremely high-density silver halide film grain. Absolutely real human subject, extremely three-dimensional and profound real human skeletal features, ultra-microscopic real pores, stubble, fine lines, and skin texture with nowhere to hide under hard light irradiation, extremely realistic fabric textures showing crisp wool trench coat texture and wet felt details of a fedora hat. 1950s city street scene or claustrophobic private detective office full of suspense and oppression, shadow space with extreme depth, iconic Venetian blind tilted projections cutting the frame extremely sharply, cobblestone streets with puddle highlights in the rainy night, retro metal street lamps emitting blinding light, real retro classic car paint reflections parked in the shadows, extremely realistic cigarette smoke swirling and churning in the light beams. STRICTLY PROHIBITED: NO 3D CGI feel, NO semi-realistic models, NO manga or anime, NO color, NO modern technological elements.",
+    "tone": "cool",
+    "lighting": "natural"
+  },
+  {
+    "id": "3d_xianxia",
+    "name": "3D东方仙侠",
+    "name_en": "3D Eastern Xianxia",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, mythological high fantasy aesthetic materialized in 3D, ethereal digital painting style, Unreal Engine 5. Blending photorealistic physical proportions with highly stylized soft-brushed painterly details and flowing elegant 3D line definitions. Masterpiece 3D semi-realistic character modeling, flawless porcelain skin with a faint ethereal celestial glow emanating from within, luminous translucent jade color transitions, pearlescent overlays, and smooth dreamy gradients. XGen simulated hyper-dynamic flowing hair, heavy physical simulation of elegant layered ancient robes with subtle celestial motifs embroidered in faint silver thread. Breathtaking 3D Eastern Xianxia cultivation realm, floating misty mountains, crystalline lakes reflecting ethereal auroras, ancient celestial architecture shrouded in immortal mist, glowing spiritual flora, cinematic volumetric lighting and divine atmospheric depth. STRICTLY PROHIBITED: NO flat 2D anime, NO photorealistic live-action humans, NO modern elements, NO cyberpunk, NO western fantasy, NO cheap plastic feel.",
+    "tone": "neutral",
+    "lighting": "natural"
+  },
+  {
+    "id": "pixar_3dtoon",
+    "name": "皮克斯3D卡通",
+    "name_en": "Pixar 3D Toon",
+    "prompt": "[Rendering Style: High-End 3D CGI & Stylized Semi-Realistic] Ultra-high-end next-gen 3D CGI, Pixar-inspired stylized semi-realistic toon rendering, cinematic 3D-to-2D aesthetic with full volumetric depth preserved, soft cel-shading edge definition merged with physically accurate subsurface scattering, Unreal Engine 5 Lumen global illumination with warm studio-grade three-point cinematic lighting, rich saturated yet tasteful color palette with harmonious complementary tones, gentle ambient occlusion contact shadows. Masterpiece 3D stylized character modeling with Pixar-quality facial topology, exaggerated yet appealing proportional design with large expressive eyes and simplified elegant facial features, flawless soft-touch skin with warm peachy subsurface scattering glow, smooth stylized hair with sculpted chunky clumps showing clean silhouette lines, expressive micro-animations frozen in pose conveying personality and emotion, clothing rendered with simplified fabric simulation retaining 3D volume and clean fold lines. Breathtaking 3D stylized environment with cinematic depth, lush painterly backgrounds with soft atmospheric perspective, warm golden-hour god rays filtering through stylized foliage, richly colored simplified architectural forms with clean geometric edges, subtle bokeh and lens flare adding cinematic polish, every surface maintaining the signature 3D-to-2D balance of depth and graphic clarity. STRICTLY PROHIBITED: NO flat 2D manga, NO photorealistic live-action humans, NO gritty realism, NO harsh anime cel-shading, NO metallic cyberpunk, NO dark gothic tones.",
+    "tone": "warm",
+    "lighting": "natural"
+  }
+]

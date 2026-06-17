@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Synapse</title>
+
+<link rel="icon" type="image/jpeg" href="/static/logo.jpg">
+
+<link rel="stylesheet" href="/static/css/main.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+
+
+<script>
+
+window.onerror = function(msg, url, line, col, error) {
+
+    document.title = 'ERROR: ' + msg + ' L' + line;
+
+    var el = document.createElement('div');
+
+    el.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:white;padding:10px;z-index:99999;font-size:12px;font-family:monospace;white-space:pre-wrap;max-height:200px;overflow:auto;';
+
+    el.textContent = 'JS ERROR: ' + msg + ' at line ' + line + ':' + col + ' in ' + url;
+
+    document.body.appendChild(el);
+
+    return false;
+
+};
+
+</script>
+
+
+
+
+
+</head>
+
+<body>
+
+<!-- Boot Splash Overlay -->
+
+<div id="boot-splash" class="boot-splash">
+
+  <div class="boot-splash-content">
+
+    <div class="boot-glow-orb"></div>
+
+    <div class="boot-glass-card">
+
+      <div class="boot-glass-refraction"></div>
+
+      <div class="boot-text" id="boot-text">从0到1</div>
+
+    </div>
+
+    <div class="boot-subtitle" id="boot-subtitle"></div>
+
+  </div>
+
+</div>
+
+<!-- License Activation Overlay -->
+<div id="license-overlay" class="license-overlay" style="display:none;">
+  <div class="license-overlay-bg"></div>
+  <div class="license-card">
+    <div class="license-card-refraction"></div>
+    <div class="license-logo">
+      <h1>Synapse</h1>
+      <p>AI漫剧创作平台</p>
+    </div>
+    <div class="license-form-group">
+      <label>许可证密钥</label>
+      <input type="text" id="license-key-input" placeholder="SYN-XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+    </div>
+    <button class="license-btn" id="license-activate-btn" onclick="doActivateLicense()">激活</button>
+    <div class="license-status" id="license-status"></div>
+    <div class="license-offline-notice" id="license-offline-notice">离线模式：验证信息已缓存，最多可离线使用7天</div>
+  </div>
+</div>
+
+<!-- Disclaimer Modal -->
+<div id="disclaimer-modal" class="disclaimer-modal" style="display:none;">
+  <div class="disclaimer-overlay"></div>
+  <div class="disclaimer-card">
+    <div class="disclaimer-card-refraction"></div>
+    <div class="disclaimer-header">
+      <div class="disclaimer-glow"></div>
+      <h2 class="disclaimer-title">免责声明与用户使用协议</h2>
+      <p class="disclaimer-date">最后更新日期：2026年6月1日</p>
+    </div>
+    <div class="disclaimer-body" id="disclaimer-body">
+      <p class="disclaimer-notice">请在使用本软件前仔细阅读本协议。您下载、安装、运行或使用本软件即表示您已阅读、理解并同意接受本协议的全部条款。如您不同意本协议的任何条款，请立即停止使用本软件并删除相关程序文件。</p>
+
+      <h3>一、软件性质与用途声明</h3>
+      <p>本软件（以下简称“本工具”）是一款面向创作者的数字漫画/短剧辅助制作工具，旨在为用户提供便捷的内容创作支持。本工具适用于个人学习、兴趣创作、工作演示、商业宣传等合法用途。用户应确保其使用本工具的方式和目的符合中华人民共和国现行法律法规及用户所在司法管辖区的相关法律。</p>
+
+      <h3>二、用户使用责任</h3>
+      <p>用户在使用本工具时，应严格遵守适用法律法规。用户应确保其创作、生成、存储、传播的所有内容均合法合规，包括但不限于：</p>
+      <p>(1) 不得制作、存储、传播违反中华人民共和国宪法、法律、行政法规及部门规章的内容；</p>
+      <p>(2) 不得侵犯任何第三方的著作权、商标权、专利权、商业秘密、肖像权、名誉权、隐私权、个人信息权益及其他合法权益；</p>
+      <p>(3) 不得制作、传播虚假信息、诽谤性内容、淫秽色情内容、暴力恐怖内容或其他法律禁止的内容；</p>
+      <p>(4) 不得利用本工具从事任何危害国家安全、破坏民族团结、扰乱社会秩序、损害公共利益的行为；</p>
+      <p>(5) 不得利用本工具实施欺诈、诈骗、敲诈勒索或其他违法犯罪行为；</p>
+      <p>(6) 不得将本工具用于任何违反国际公约或出口管制法律法规的用途。</p>
+
+      <h3>三、AI生成内容特别声明</h3>
+      <p>(1) 本工具所调用的AI模型由第三方人工智能服务提供商提供。本工具开发方不对AI模型的训练数据来源、合规性及其输出结果承担任何责任。</p>
+      <p>(2) AI生成的内容可能涉及模型训练数据的版权争议。用户使用AI生成内容应自行评估相关法律风险，本工具开发方不对AI生成内容的知识产权合法性作任何明示或暗示的担保。</p>
+      <p>(3) AI生成的内容可能存在错误、偏差、虚构、失实或不准确之处（即“AI幻觉”）。用户应自行判断和核实AI生成内容的准确性与适当性，不得将AI生成内容作为事实依据、法律证据或用于任何对准确性有严格要求的场景。</p>
+      <p>(4) 用户应确保其提供给AI模型的输入素材不侵犯任何第三方权利，不违反法律法规，不包含违法或不当内容。因用户输入素材引发的一切法律责任由用户自行承担。</p>
+
+      <h3>四、深度伪造与肖像权专项条款</h3>
+      <p>(1) 严禁使用本工具进行深度伪造（Deepfake）活动，包括但不限于利用他人肖像、面容、声音进行未经授权的替换、合成、模仿或伪造。</p>
+      <p>(2) 严禁使用本工具制作可能对他人名誉、隐私、肖像等合法权益造成侵害的内容。</p>
+      <p>(3) 用户使用本工具处理涉及自然人肖像、声音等生物识别信息的素材，应事先取得相关权利人的明确授权。因用户未经授权使用他人肖像、声音等素材所引发的一切纠纷、索赔及法律责任，由用户自行承担全部责任。</p>
+
+      <h3>五、费用与第三方服务</h3>
+      <p>(1) 本工具在运行过程中可能需要调用第三方API服务、云服务或其他付费服务。使用上述服务所产生的一切费用由用户自行承担。</p>
+      <p>(2) 第三方服务的定价、可用性、计费规则及服务条款由相应第三方服务提供商自行决定和调整，本工具开发方不对此承担任何责任，亦不负责处理因第三方服务计费产生的任何争议或退款请求。</p>
+      <p>(3) 用户应自行了解并遵守所使用的第三方服务的服务条款和计费规则。因用户对第三方服务条款理解不足或疏忽所导致的任何费用损失，本工具开发方不承担任何责任。</p>
+
+      <h3>六、软件可用性与数据安全</h3>
+      <p>(1) 本工具按“现状”（AS IS）和“可得”（AS AVAILABLE）基础提供。在适用法律允许的最大范围内，本工具开发方不对本工具的性能、可靠性、准确性、完整性、安全性、及时性或无错误运行作任何明示或暗示的保证。</p>
+      <p>(2) 因以下原因导致的服务中断、功能受限、数据丢失或损坏，本工具开发方不承担任何责任：网络连接故障或不稳定；第三方服务中断、故障或停止运营；操作系统更新或兼容性变更；计算机病毒、恶意软件、黑客攻击；电力中断、自然灾害等不可抗力；用户设备硬件或软件故障。</p>
+      <p>(3) 用户应自行做好创作数据的定期备份工作。因用户未及时备份、设备故障、操作失误、存储介质损坏等原因导致的数据丢失或损坏，本工具开发方不承担恢复或赔偿责任。</p>
+      <p>(4) 对于涉及未成年人使用本工具的场景，未成年人的监护人应履行监护职责，指导未成年人合理、安全地使用本工具，并对未成年人使用本工具的行为及其后果承担全部监护责任和法律责任。</p>
+
+      <h3>七、知识产权保护</h3>
+      <p>(1) 本工具的源代码、程序架构、用户界面设计、技术方案、算法实现、文档资料、商标、标识及其他相关知识产权均受中华人民共和国著作权法、专利法、商标法及其他相关法律法规保护，归本工具开发方所有。</p>
+      <p>(2) 本工具源码公开不代表放弃知识产权或授权管理。未经本工具开发方事先书面许可，任何个人或组织不得分发、转售、租赁、出借、许可或以其他方式向第三方提供去除授权机制、绕过卡密验证或篡改核心功能的版本；不得破解、绕过或试图规避本工具的技术保护措施和授权机制；不得以任何方式抄袭、仿制、盗用或恶意篡改本工具的功能、设计或技术方案。</p>
+      <p>(3) 任何未经授权的抄袭、仿制、盗用、篡改本工具功能、设计或技术方案的行为，均构成知识产权侵权，本工具开发方保留采取以下措施的权利：要求侵权方立即停止侵权行为；要求侵权方赔偿经济损失及合理维权费用（包括但不限于律师费、公证费、鉴定费、差旅费等）；向相关行政主管部门举报或投诉；向有管辖权的人民法院提起民事诉讼或申请诉前禁令；在符合刑事追诉条件的情况下，向公安机关报案追究刑事责任。</p>
+
+      <h3>八、用户内容版权说明</h3>
+      <p>用户使用本工具所创作的内容，其知识产权归属由用户自行决定并负责。本工具开发方不主张对用户内容享有任何权利，亦不对用户内容的知识产权归属、合法性或原创性作出任何承诺或担保。用户应自行确保其用户内容不侵犯任何第三方的知识产权及其他合法权益。因用户内容引发的知识产权纠纷或其他法律争议，由用户自行承担全部责任。</p>
+
+      <h3>九、责任限制</h3>
+      <p>在适用法律允许的最大范围内：</p>
+      <p>(1) 本工具开发方对因用户使用或无法使用本工具所导致的任何间接的、偶然的、特殊的、惩罚性的或后果性的损害不承担任何责任，包括但不限于利润损失、数据丢失、业务中断、商誉损失、替代商品或服务的采购成本等。</p>
+      <p>(2) 在任何情况下，本工具开发方就本工具相关的全部事项对用户承担的累计赔偿总额不超过用户在损害发生前十二（12）个月内实际向本工具开发方支付的费用总额（如有）。如用户未向本工具开发方支付任何费用，则本工具开发方的累计赔偿责任上限为人民币零元（RMB 0）。</p>
+      <p>(3) 上述责任限制适用于基于合同、侵权（包括过失）、严格责任或其他法律理论提出的索赔。</p>
+
+      <h3>十、不当使用追责</h3>
+      <p>(1) 用户违反本协议任何条款或违反适用法律法规使用本工具，导致本工具开发方遭受任何损失或损害的，用户应向本工具开发方承担全部赔偿责任，赔偿范围包括但不限于：行政处罚及罚款；司法诉讼费用及律师费；第三方索赔及赔偿金；调查取证费用；本工具开发方因此遭受的声誉损失及商誉损失；其他直接损失和合理费用。</p>
+      <p>(2) 本工具开发方发现或有理由相信用户存在违反本协议或违法使用本工具的行为时，有权立即终止该用户对本工具的使用权限，且无需事先通知。本工具开发方保留就上述行为向有关部门举报并配合调查的权利。</p>
+
+      <h3>十一、协议修改</h3>
+      <p>本工具开发方保留根据法律法规变化、业务调整或其他合理原因随时修改本协议条款的权利。修改后的协议将在软件内或本工具的官方发布平台公布。协议修改后，用户继续使用本工具即视为同意修改后的全部条款。如用户不同意修改后的条款，应立即停止使用本工具。</p>
+
+      <h3>十二、可分割性</h3>
+      <p>如本协议的任何条款被有管辖权的法院或仲裁机构认定为无效、不合法或不可执行，该条款应在适用法律允许的最大范围内予以执行，以实现本协议的原始意图。本协议的其余条款继续保持完全的法律效力。</p>
+
+      <h3>十三、完整协议</h3>
+      <p>本协议构成用户与本工具开发方之间就本工具使用事宜的完整协议，取代此前双方就同一事项达成的所有口头或书面协议、谅解和陈述。</p>
+
+      <h3>十四、争议解决</h3>
+      <p>因本协议引起的或与本协议有关的任何争议，双方应首先通过友好协商解决。协商不成的，任一方有权向本工具开发方所在地有管辖权的人民法院提起诉讼。</p>
+
+      <h3>十五、法律适用</h3>
+      <p>本协议的订立、效力、解释、履行、修改、终止及争议解决均适用中华人民共和国大陆地区法律（不包括冲突法规则及香港特别行政区、澳门特别行政区、台湾地区法律）。</p>
+
+      <h3>十六、联系方式</h3>
+      <p>如您对本协议有任何疑问、意见或建议，请通过本软件内置的反馈功能或软件官方发布渠道与开发方取得联系。</p>
+
+      <p class="disclaimer-confirm">您确认：您已仔细阅读并充分理解本协议的全部条款，特别是涉及免除或限制本工具开发方责任的条款、对用户权利限制的条款以及争议解决条款。您自愿接受本协议的全部条款约束，并愿意承担相应的法律后果。</p>
+    </div>
+    <div class="disclaimer-footer" id="disclaimer-footer">
+      <div class="disclaimer-scroll-hint" id="disclaimer-hint">请滑动阅读完整内容</div>
+      <label class="disclaimer-checkbox-label">
+        <input type="checkbox" id="disclaimer-checkbox" disabled>
+        <span class="disclaimer-checkmark"></span>
+        <span>我已阅读并同意上述内容</span>
+      </label>
+      <button class="disclaimer-btn" id="disclaimer-agree-btn" disabled>确认并进入</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Globe background (fixed full-screen) -->
+<div id="globe-container"></div>
+
+
+<!-- Custom titlebar (frameless window) -->
+<div class="custom-titlebar" id="custom-titlebar">
+  <div class="titlebar-title">
+    <img src="/static/titlebar-logo.png" class="titlebar-logo-img" alt="Synapse">
+  </div>
+  <div class="titlebar-controls">
+    <button class="titlebar-btn" id="btn-minimize" title="最小化">
+      <svg width="12" height="12" viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <button class="titlebar-btn titlebar-close" id="btn-close" title="关闭">
+      <svg width="12" height="12" viewBox="0 0 12 12"><line x1="2" y1="2" x2="10" y2="10" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="2" x2="2" y2="10" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+</div>
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Particle canvas (full screen, behind everything) -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Aurora background -->
+<div class="aurora-bg"></div>
+
+<div id="app">
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+    </div>
+    <div class="sidebar-license-info" id="sidebar-license-info" style="display:none;">
+      <div class="license-badge" id="license-badge">
+        <span class="license-badge-dot"></span>
+        <span class="license-badge-text" id="license-badge-text">--</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="menu-item active" data-page="home" onclick="navigateTo('home')">
+        <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="menu-label">首页</span>
+      </div>
+      <div class="menu-item" data-page="projects" onclick="navigateTo('projects')">
+        <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="menu-label">项目</span>
+      </div>
+      <div class="menu-item" data-page="settings" onclick="navigateTo('settings')">
+        <svg class="menu-icon" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" fill="none" stroke-width="1.5"/></svg>
+        <span class="menu-label">设置</span>
+      </div>
+      <div class="menu-item" onclick="openApiRelay()">
+        <svg class="menu-icon" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="menu-label">API中转站</span>
+      </div>
+      <div class="sidebar-card" onclick="openAgreement()">
+        <svg class="sidebar-card-icon" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="sidebar-card-label">用户服务协议</span>
+      </div>
+      <div class="sidebar-card" onclick="openTopics()">
+        <svg class="sidebar-card-icon" viewBox="0 0 24 24"><path d="M7 4V2m0 2a2 2 0 012 2v8a2 2 0 01-2 2m0-12H5m2 0h2m8-2v2m0-2a2 2 0 012 2v8a2 2 0 01-2 2m0-12h2m-2 0h-2M7 20h10" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="sidebar-card-label">选题推荐</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main id="main-content" class="main-content">
+    <!-- Home Page -->
+    <div id="page-home" class="page active">
+      <div class="hero" id="hero-section">
+        <h1 class="hero-title animate-in"><span class="hero-tagline animate-in" style="animation-delay:0.05s">「在这里」</span><br><span class="gradient-text shimmer">让灵感，化作画面</span><br><span class="gradient-text shimmer">让梦境，成为现实</span></h1>
+        <p class="hero-subtitle animate-in" style="animation-delay:0.15s">小说 → 分镜 → 图片 → 视频，全自动流水线</p>
+        <button class="btn btn-primary btn-lg animate-in" style="animation-delay:0.3s" onclick="navigateTo('projects')">开始创作</button>
+      </div>
+      <div class="features-grid" id="features-grid">
+        <div class="glass-card feature-card spotlight" data-index="0">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>创意输入</h3>
+          <p>告诉AI你想做什么，一句话开启漫剧创作</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="1">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>智能大纲</h3>
+          <p>AI自动生成完整项目大纲和角色设定</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="2">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>角色定妆</h3>
+          <p>为每个角色生成专业级定妆照，锁定形象</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="3">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>小说创作</h3>
+          <p>LLM逐集生成小说正文，支持审核和修改</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="4">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>双轨分镜</h3>
+          <p>自动生成图片提示词+音视频提示词双轨分镜</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="5">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>AI生图</h3>
+          <p>图片模型生成每帧分镜图，角色一致性保障</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="6">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>AI视频</h3>
+          <p>逐帧生成动态影像，对话/音效/BGM一步到位</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="7">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>字幕生成</h3>
+          <p>自动识别对白，生成时间轴精准字幕</p>
+        </div>
+        <div class="glass-card feature-card spotlight" data-index="8">
+          <div class="card-glow"></div>
+          <div class="card-border-glow"></div>
+          <div class="card-icon">✦</div>
+          <h3>一键导出</h3>
+          <p>从项目到成片——自动合成、渲染、导出</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div id="page-projects" class="page">
+      <div class="page-header">
+        <h2>我的项目</h2>
+        <button class="btn btn-primary" onclick="showNewProjectModal()">+ 新建项目</button>
+      </div>
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="page-settings" class="page">
+      <div class="page-header"><h2>API 设置</h2></div>
+      <div class="settings-sections">
+        <div class="glass-card settings-card">
+<h3>✦ LLM 大语言模型</h3>
+          <div class="form-group"><label>API Base URL</label><input type="text" id="llm-base-url" class="input" placeholder="https://api.deepseek.com/v1" list="llm-url-list"><datalist id="llm-url-list"><option value="https://api.deepseek.com/v1"><option value="https://api.openai.com/v1"><option value="https://api.anthropic.com/v1"><option value="https://api.volcengine.com/v1"><option value="https://api.minimax.chat/v1"></datalist></div>
+          <div class="form-group"><label>API Key</label><div class="input-with-toggle"><input type="password" id="llm-api-key" class="input" placeholder="sk-..."><button class="toggle-visibility" onclick="toggleKeyVisibility('llm-api-key')" type="button">👁</button></div></div>
+          <div class="form-group"><label>模型</label><input type="text" id="llm-model" class="input" placeholder="deepseek-chat" list="llm-model-list"><datalist id="llm-model-list"><option value="deepseek-chat"><option value="deepseek-reasoner"><option value="gpt-4o"><option value="gpt-4o-mini"><option value="claude-sonnet-4-20250514"><option value="claude-opus-4-20250514"></datalist></div>
+          <button class="btn btn-secondary" onclick="testConnection('llm')">测试连接</button>
+          <span id="llm-test-result" class="test-result"></span>
+        </div>
+        <div class="glass-card settings-card">
+          <h3>✦ 图片模型</h3>
+          <div class="form-group"><label>API Base URL</label><input type="text" id="image-base-url" class="input" placeholder="https://api.replicate.com/v1" list="image-url-list"><datalist id="image-url-list"><option value="https://api.openai.com/v1"><option value="https://api.replicate.com/v1"><option value="https://api.bFLUX.ai/v1"></datalist></div>
+          <div class="form-group"><label>API Key</label><div class="input-with-toggle"><input type="password" id="image-api-key" class="input" placeholder="sk-..."><button class="toggle-visibility" onclick="toggleKeyVisibility('image-api-key')" type="button">👁</button></div></div>
+          <div class="form-group"><label>模型</label><input type="text" id="image-model" class="input" placeholder="gpt-image-2" list="image-model-list"><datalist id="image-model-list"><option value="gpt-image-2"><option value="dall-e-3"><option value="gpt-image-2-all"><option value="flux-1.1-pro"><option value="flux-schnell"><option value="stable-diffusion-3"><option value="kling-v1"><option value="kling-v2"><option value="kling-v3"></datalist></div>
+
+          <button class="btn btn-secondary" onclick="testConnection('image')">测试连接</button>
+          <span id="image-test-result" class="test-result"></span>
+        </div>
+        <div class="glass-card settings-card">
+          <h3>✦ 视频模型</h3>
+          <div class="form-group"><label>API Base URL</label><input type="text" id="video-base-url" class="input" placeholder="https://api.x.ai/v1" list="video-url-list"><datalist id="video-url-list"><option value="https://api.x.ai/v1"><option value="https://api.klingai.com"><option value="https://api.runwayml.com/v1"></datalist></div>
+          <div class="form-group"><label>API Key</label><div class="input-with-toggle"><input type="password" id="video-api-key" class="input" placeholder="sk-..."><button class="toggle-visibility" onclick="toggleKeyVisibility('video-api-key')" type="button">👁</button></div></div>
+          <div class="form-group"><label>模型</label><input type="text" id="video-model" class="input" placeholder="grok-2-vision" list="video-model-list"><datalist id="video-model-list"><option value="grok-2-vision"><option value="kling-v1-5"><option value="gen3a_turbo"></datalist></div>
+          <button class="btn btn-secondary" onclick="testConnection('video')">测试连接</button>
+          <span id="video-test-result" class="test-result"></span>
+        </div>
+      </div>
+      <div style="margin-top:24px;text-align:center;">
+        <button class="btn btn-primary btn-lg" onclick="saveSettings()">保存设置</button>
+      </div>
+    </div>
+
+    <!-- Workspace Page -->
+    <div id="page-workspace" class="page">
+      <div class="workspace-layout">
+        <div class="step-bar" id="step-bar">
+          <div class="step-item completed" data-step="1"><span class="step-num">1</span><span class="step-label">配置</span></div>
+          <div class="step-item" data-step="2"><span class="step-num">2</span><span class="step-label">创意</span></div>
+          <div class="step-item" data-step="3"><span class="step-num">3</span><span class="step-label">定妆</span></div>
+          <div class="step-item" data-step="4"><span class="step-num">4</span><span class="step-label">小说</span></div>
+          <div class="step-item" data-step="5"><span class="step-num">5</span><span class="step-label">分镜</span></div>
+          <div class="step-item" data-step="6"><span class="step-num">6</span><span class="step-label">生图</span></div>
+          <div class="step-item" data-step="7"><span class="step-num">7</span><span class="step-label">视频</span></div>
+          <div class="step-item" data-step="8"><span class="step-num">8</span><span class="step-label">合成</span></div>
+          <div class="step-item" data-step="9"><span class="step-num">9</span><span class="step-label">导出</span></div>
+        </div>
+        <div class="workspace-main" id="workspace-main">
+          <div class="workspace-step" id="ws-step-2">
+            <!-- 1 -->
+            <div id="outline-phase-input">
+              <h2>输入你的创意</h2>
+              <div class="glass-card creative-form">
+                <!-- 模式切换 -->
+                <div class="form-group">
+                  <div class="creation-mode-toggle" id="creation-mode-toggle">
+                    <button class="mode-btn active" data-mode="ai" onclick="switchCreationMode('ai')"><span class="mode-icon">&#9881;</span>AI创作</button>
+                    <button class="mode-btn" data-mode="upload" onclick="switchCreationMode('upload')"><span class="mode-icon">&#8682;</span>上传小说</button>
+                  </div>
+                </div>
+
+                <!-- AI创作模式：创意描述 -->
+                <div class="form-group mode-section-enter" id="creative-input-group">
+                  <label>创意描述</label>
+                  <textarea id="creative-input" class="input textarea" rows="4" placeholder="用几句话描述你的故事想法...
+
+例如：一个社恐女程序员意外获得读心术..."></textarea>
+                </div>
+
+                <!-- 上传小说模式 -->
+                <div class="form-group mode-section-hidden" id="novel-upload-group">
+                  <label>上传小说</label>
+                  <div class="novel-upload-zone" id="novel-upload-zone">
+                    <div class="novel-upload-hint">拖拽 .txt 文件到此处，或点击选择文件</div>
+                    <input type="file" id="novel-file-input" accept=".txt" style="display:none;" onchange="handleNovelFileSelect(event)">
+                  </div>
+                  <div class="novel-upload-or">或直接粘贴小说文本：</div>
+                  <textarea id="novel-text-input" class="input textarea" rows="11" placeholder="将小说全文粘贴到这里..."></textarea>
+                  <div class="novel-upload-info" id="novel-upload-info" style="display:none;"></div>
+                </div>
+
+                <div class="form-row form-row-3">
+                  <div class="form-group">
+                    <label>集数/集</label>
+                    <div class="combobox-trigger" data-combobox="episodes">
+                      <input type="number" id="episodes" class="input" min="1" max="200" step="1" value="10">
+                    </div>
+                    <div id="dropdown-episodes" class="combobox-dropdown">
+                      <div class="combobox-option" data-value="3">3 </div>
+                      <div class="combobox-option" data-value="5">5 </div>
+                      <div class="combobox-option" data-value="8">8 </div>
+                      <div class="combobox-option" data-value="10">10 </div>
+                      <div class="combobox-option" data-value="15">15 </div>
+                      <div class="combobox-option" data-value="20">20 </div>
+                      <div class="combobox-option" data-value="30">30 </div>
+                      <div class="combobox-option" data-value="50">50 </div>
+                    </div>
+                    <span class="form-hint">3-50</span>
+                  </div>
+                  <div class="form-group">
+                    <label>每集时长/秒</label>
+                    <div class="combobox-trigger" data-combobox="episode-duration">
+                      <input type="number" id="episode-duration" class="input" min="10" max="600" step="5" value="60">
+                    </div>
+                    <div class="combobox-dropdown" id="dropdown-episode-duration">
+                      <div class="combobox-option" data-value="15">15 </div>
+                      <div class="combobox-option" data-value="30">30 </div>
+                      <div class="combobox-option" data-value="45">45 </div>
+                      <div class="combobox-option" data-value="60">60 </div>
+                      <div class="combobox-option" data-value="90">90 </div>
+                      <div class="combobox-option" data-value="120">120 </div>
+                      <div class="combobox-option" data-value="180">180 </div>
+                      <div class="combobox-option" data-value="300">300 </div>
+                    </div>
+                    <span class="form-hint">15-60, 90-180</span>
+                  </div>
+                  <div class="form-group">
+                    <label>片段时长/秒</label>
+                    <div class="combobox-trigger" data-combobox="clip-duration">
+                      <input type="hidden" id="clip-duration" value="10">
+                      <input type="text" id="clip-duration-display" class="input" value="10" readonly placeholder="选择片段时长">
+                    </div>
+                    <div id="dropdown-clip-duration" class="combobox-dropdown">
+                      <div class="combobox-option" data-value="5">5 </div>
+                      <div class="combobox-option" data-value="10">10 </div>
+                      <div class="combobox-option" data-value="15">15 </div>
+                    </div>
+                    <span class="form-hint">5-15秒</span>
+                  </div>
+                </div>
+
+                <div class="form-row form-row-3">
+                  <div class="form-group">
+                    <label>画风</label>
+                    <div class="combobox-trigger" data-combobox="art-style">
+                      <input type="hidden" id="art-style" value="ink_wash">
+                      <input type="text" id="art-style-display" class="input" value="" readonly placeholder="">
+                    </div>
+                    <div id="dropdown-art-style" class="combobox-dropdown">
+                      <!-- 预设画风 - 我的画风 -->
+                      <div class="combobox-group-header">预设画风</div>
+                      <div id="preset-styles-list"></div>
+                      <div class="combobox-divider"></div>
+                      <div class="combobox-group-header">我的画风</div>
+                      <div id="custom-styles-list">
+                        <div class="combobox-empty-hint" id="custom-styles-empty"></div>
+                      </div>
+                      <div class="combobox-divider"></div>
+                      <div class="combobox-option combobox-ai-generate" id="btn-ai-generate-style">AI生成</div>
+                    </div>
+                    <span class="form-hint">选择预设画风或AI生成</span>
+                  </div>
+                  <div class="form-group">
+                    <label>类型</label>
+                    <input type="text" id="genre" class="input" placeholder="言情, 搞笑, 悬疑" value="">
+                    <span class="form-hint">用逗号分隔，多个类型可叠加</span>
+                  </div>
+                </div>
+
+                <div class="form-row form-row-3" id="style-modifiers-row">
+                  <div class="form-group">
+                    <label>色调</label>
+                    <div class="combobox-trigger" data-combobox="style-tone">
+                      <input type="hidden" id="style-tone" value="">
+                      <input type="text" id="style-tone-display" class="input" value="" readonly placeholder="">
+                    </div>
+                    <div id="dropdown-style-tone" class="combobox-dropdown">
+                      <div class="combobox-option" data-value="">不指定</div>
+                      <div id="style-tone-options"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>光影</label>
+                    <div class="combobox-trigger" data-combobox="style-lighting">
+                      <input type="hidden" id="style-lighting" value="">
+                      <input type="text" id="style-lighting-display" class="input" value="" readonly placeholder="">
+                    </div>
+                    <div id="dropdown-style-lighting" class="combobox-dropdown">
+                      <div class="combobox-option" data-value="">不指定</div>
+                      <div id="style-lighting-options"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>质感</label>
+                    <div class="combobox-trigger" data-combobox="style-texture">
+                      <input type="hidden" id="style-texture" value="">
+                      <input type="text" id="style-texture-display" class="input" value="" readonly placeholder="">
+                    </div>
+                    <div id="dropdown-style-texture" class="combobox-dropdown">
+                      <div class="combobox-option" data-value="">不指定</div>
+                      <div id="style-texture-options"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button class="btn btn-secondary" onclick="clearCreativeForm()">清空</button>
+                  <button class="btn btn-primary btn-lg" onclick="startPlanning()" id="btn-start-planning">开始规划</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 -->
+            <div id="outline-phase-titles" style="display:none;">
+              <h2>选择一个标题</h2>
+              <p class="text-secondary" style="margin-bottom:16px;">AI为您生成了几个标题方案，请选择一个：</p>
+              <div class="titles-grid" id="titles-grid"></div>
+              <div class="glass-card title-card" style="padding:20px;margin-bottom:12px;">
+                <p style="margin:0 0 10px 0;color:var(--text-secondary);font-size:14px;">或者输入自定义标题：</p>
+                <div style="display:flex;gap:10px;">
+                  <input type="text" id="custom-title-input" placeholder="输入您想要的标题..." style="flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);font-size:16px;" onkeydown="if(event.key==='Enter')useCustomTitle()">
+                  <button class="btn btn-primary" onclick="useCustomTitle()">使用此标题</button>
+                </div>
+              </div>
+              <div class="action-bar">
+                <button class="btn btn-secondary" onclick="backToInput()">返回修改</button>
+                <button class="btn btn-ghost" onclick="skipTitles()">跳过标题，直接生成</button>
+              </div>
+            </div>
+
+            <!-- 3 -->
+            <div id="outline-phase-result" style="display:none;">
+              <h2 id="outline-title-display"></h2>
+              <div id="outline-cards"></div>
+              <div class="action-bar">
+                <button class="btn btn-secondary" onclick="modifyOutline()">AI优化大纲</button>
+                <button class="btn btn-primary" onclick="confirmOutline()">确认大纲，进入下一步</button>
+              </div>
+            </div>
+          </div>
+          <div class="workspace-step" id="ws-step-3">
+            <h2>角色定妆</h2>
+            <div class="characters-grid" id="characters-grid"></div>
+            <div class="action-bar">
+              <button class="btn btn-primary" onclick="confirmCharacters()">确认所有角色</button>
+            </div>
+          </div>
+          <div class="workspace-step" id="ws-step-4">
+            <h2>小说正文</h2>
+            <div class="chapter-nav" id="chapter-nav"></div>
+            <div class="novel-content-wrapper">
+              <div class="glass-card" id="novel-display"></div>
+              <div class="emotion-curve-panel" id="emotion-curve-panel">
+                <h4>✨ 情绪曲线</h4>
+                <div class="emotion-curve-legend">暂无情绪数据</div>
+              </div>
+            </div>
+            <div class="action-bar" id="novel-action-bar">
+              <button class="btn btn-secondary" onclick="modifyNovel()">AI优化小说</button>
+              <button class="btn btn-secondary" onclick="regenerateNovel()">重新生成本集</button>
+            </div>
+          </div>
+          <div class="workspace-step" id="ws-step-5">
+            <h2>分镜脚本</h2>
+            <div class="storyboard-timeline" id="storyboard-timeline"></div>
+            <div class="action-bar" id="storyboard-action-bar">
+              <button class="btn btn-secondary" onclick="modifyStoryboard()">AI优化分镜</button>
+              <button class="btn btn-secondary" onclick="enterSortMode()">自定义排序</button>
+              <button class="btn btn-secondary" onclick="aiReview()">AI审查</button>
+              <button class="btn btn-warning" id="btn-batch-remaining" style="display:none;" onclick="batchGenerateRemainingStoryboard()">批量生成剩余集分镜</button>
+              <button class="btn btn-primary" onclick="confirmStoryboard()">确认分镜，生成图片</button>
+            </div>
+          </div>
+          <div class="workspace-step" id="ws-step-6">
+            <h2>分镜图</h2>
+            <div class="frames-grid" id="frames-grid"></div>
+            <div class="action-bar">
+              <button class="btn btn-primary" onclick="generateVideos()">生成视频</button>
+            </div>
+          </div>
+          <div class="workspace-step" id="ws-step-7">
+            <h2>AI视频</h2>
+            <div class="videos-grid" id="videos-grid"></div>
+            <div class="action-bar">
+              <button class="btn btn-primary" onclick="enterCompose()">进入后期合成</button>
+            </div>
+          </div>
+          <div class="workspace-step" id="ws-step-8">
+            <h2>后期合成</h2>
+            <div id="compose-content"></div>
+          </div>
+          <div class="workspace-step" id="ws-step-9">
+            <h2>导出成品</h2>
+            <div id="export-content"></div>
+          </div>
+</div>
+        </div>
+        <button class="chat-toggle-btn" id="chat-toggle-btn" onclick="toggleChatSidebar()" title="AI助手">&#x25C0;</button>
+        <div class="chat-sidebar" id="chat-sidebar">
+          <div class="chat-header">
+            <h3>AI 助手</h3>
+            <button class="btn btn-ghost btn-sm" onclick="toggleChatSidebar()" style="font-size:16px;padding:4px 8px;">&#x2715;</button>
+          </div>
+          <div class="chat-hint" id="chat-hint">
+            <div class="chat-hint-icon"></div>
+            <div class="chat-hint-text">输入你的想法，AI将协助你完成创作</div>
+          </div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-area">
+            <input type="text" id="chat-input" class="input" placeholder="告诉AI你想修改什么..." onkeydown="if(event.key==='Enter')sendChat()">
+            <button class="btn btn-primary btn-sm" onclick="sendChat()">发送</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<!-- Delete confirmation modal -->
+<div class="modal-overlay" id="modal-delete-confirm">
+  <div class="modal glass-card modal-confirm">
+    <div class="modal-confirm-icon"></div>
+    <h2 id="modal-delete-title"></h2>
+    <p id="modal-delete-message"></p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-delete-confirm')">取消</button>
+      <button class="btn btn-danger" id="modal-delete-confirm-btn">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="modal-new-project">
+  <div class="modal glass-card">
+    <h2>新建项目</h2>
+    <div class="form-group"><label>项目名称</label><input type="text" id="new-project-name" class="input" placeholder="我的漫剧"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-new-project')">取消</button>
+      <button class="btn btn-primary" onclick="createProject()">创建</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-prompt">
+  <div class="modal glass-card">
+    <h2 id="modal-prompt-title"></h2>
+    <textarea id="modal-prompt-input" class="input textarea" rows="4" placeholder="用自然语言描述你想要的修改..."></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-prompt')">取消</button>
+      <button class="btn btn-primary" id="modal-prompt-confirm">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- Image Lightbox -->
+<div id="image-lightbox" class="lightbox-overlay" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+  <img id="lightbox-img" src="" alt="预览">
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <p id="loading-text">正在生成...</p>
+</div>
+
+<script src="/static/js/app.js"></script>
+
+<!-- Liquid Glass Loading Overlay -->
+<div id="synapse-loading-overlay" class="liquid-glass-overlay" style="display: none;">
+    <div class="glass-loading-card">
+        <div class="ambient-vortex"></div>
+        <div class="loading-header">
+            <span id="loading-engine-title" class="glitch-text">SYNAPSE Engine</span>
+            <div class="breathing-glow"></div>
+        </div>
+        <p id="loading-phase-text" class="phase-text">...</p>
+        <div class="progress-track">
+            <div id="synapse-progress-bar" class="progress-fill">
+                <div class="light-streak"></div>
+            </div>
+        </div>
+        <div class="loading-footer">
+            <span id="synapse-progress-percent">0%</span>
+            <span id="synapse-loading-subtext" class="pulse-dot">...</span>
+        </div>
+    </div>
+</div>
+
+<!-- User Agreement Modal -->
+<div id="agreement-modal" class="agreement-modal" style="display:none;">
+  <div class="agreement-overlay" onclick="closeAgreement()"></div>
+  <div class="agreement-card">
+    <div class="agreement-card-refraction"></div>
+    <button class="modal-close-btn" onclick="closeAgreement()" title="关闭">&times;</button>
+    <div class="agreement-header">
+      <div class="agreement-glow"></div>
+      <h2 class="agreement-title">Synapse灵犀用户服务协议</h2>
+    </div>
+    <div class="agreement-body" id="agreement-body">
+      <p class="agreement-intro">欢迎您使用 Synapse（以下简称"本软件"）。在使用本软件之前，请您仔细阅读并充分理解本协议的全部内容。一旦您安装、复制或以任何方式使用本软件，即表示您同意接受本协议的全部条款。</p>
+
+      <h3>一、定义与适用范围</h3>
+      <p>1.1 "本软件"指由开发者开发的 Synapse 漫剧创作工具，包括但不限于软件程序、用户界面、技术文档、图标、字体及其他相关材料。</p>
+      <p>1.2 "用户"或"您"指购买、下载、安装或使用本软件的个人或实体。</p>
+      <p>1.3 "开发者"指本软件的创作者及权利人（个人开发者）。</p>
+      <p>1.4 "生成内容"指您通过本软件创作、生成的文本、分镜脚本、图片、视频及其他内容。</p>
+      <p>1.5 "Prompt模板"指本软件内置的用于引导AI生成内容的提示词模板及其组合逻辑。</p>
+      <p>1.6 "卡密"指用于激活本软件使用权限的授权码。</p>
+      <p>1.7 "输入内容"指您在使用本软件过程中提供的所有原始素材，包括但不限于小说文本、自定义提示词、上传的参考图片、音频及其他文件。</p>
+
+      <h3>二、知识产权</h3>
+      <p>2.1 本软件的所有知识产权归开发者所有，包括但不限于软件源代码、目标代码、界面设计、技术架构、Prompt模板、算法逻辑、图标、文档及其他附属材料。本软件中包含的任何编码、商标、服务标志、商号、图形、美术品、照片、文字内容、音频、视频、按钮图标以及计算机软件、标识、数码下载、数据汇编等，均为开发者或其内容提供者的财产，受中华人民共和国著作权法、商标权和其他财产所有权相关法律法规的保护。</p>
+      <p>2.2 您理解并同意，您通过本协议获得的仅是本软件的有限使用许可，而非软件的所有权。本协议不构成任何形式的知识产权转让或转移。</p>
+      <p>2.3 本软件所调用的第三方AI模型及API服务（包括但不限于图像生成、文本生成等）的知识产权归其各自权利人所有，本协议不涉及上述第三方知识产权的授权。</p>
+      <p>2.4 您理解并同意，除非另有约定，您使用本软件生成的一切内容（包括但不限于文本、分镜脚本、图片、视频等）的所有权及知识产权归您或您的许可方所有。开发者对您的生成内容不主张任何知识产权或财产权利。</p>
+      <p>2.5 您承诺在使用本软件时提供的输入内容（包括但不限于小说文本、自定义提示词、上传的参考图片、音频及其他文件）均由您原创或已获合法授权（含转授权），不存在侵犯第三方知识产权或其他合法权益的情形。</p>
+      <p>2.6 您对您的输入内容及生成内容拥有所有权、控制权和责任。您的输入内容及生成内容不得违反本协议的任何条款、适用法律法规，也不得侵犯或盗用任何个人或实体的任何权利。如开发者有理由认为您的输入内容或生成内容违反上述约定，开发者有权终止您的使用许可。</p>
+      <p>2.7 您应当善意地将本软件作为辅助创作工具。如您拟就生成内容进行公开发行传播或商业化使用，您应当自行审查该内容是否符合法律法规规定，并自行承担因使用生成内容而产生的一切法律责任。必要时，您应当寻求专业法律意见，以最大限度地排除知识产权侵权风险。</p>
+      <p>2.8 本软件的Prompt模板及分镜生成逻辑属于开发者的核心知识产权，受本协议第二条保护。您不得提取、导出、复制或以任何方式获取本软件内置的Prompt模板及其组合逻辑。</p>
+      <p>2.9 当生成内容或输入内容包含合理且惯常的许可声明（例如开源许可）时，此类内容在进一步访问、分发或使用时应遵守该许可的条款，任何一方不得删除对任何此类许可的引用。</p>
+
+      <h3>三、授权与使用限制</h3>
+      <p>3.1 开发者授予您一项非独占、不可转让、不可再许可的有限许可，允许您在单一设备上安装和使用本软件，用于合法的个人或商业创作活动。</p>
+      <p>3.2 您不得实施以下行为：</p>
+      <p>（一）对本软件进行反向工程、反编译、反汇编或以其他方式试图获取本软件的源代码；</p>
+      <p>（二）复制、修改、翻译、出租、出借、分发、转售本软件或其任何部分；</p>
+      <p>（三）删除、遮挡或修改本软件中的版权声明、商标标识或其他知识产权标识；</p>
+      <p>（四）绕过、禁用或以其他方式规避本软件的技术保护措施，包括但不限于激活验证系统；</p>
+      <p>（五）利用本软件开发与本软件功能相同或类似的竞争性产品或服务；</p>
+      <p>（六）将本软件用于任何违反中华人民共和国法律法规或公序良俗的用途；</p>
+      <p>（七）将本软件用于生成违法违规内容，包括但不限于色情、暴力、恐怖、歧视、诽谤、侵犯他人隐私或其他合法权益的内容。</p>
+      <p>3.3 本软件采用基于硬件指纹的授权验证机制。您理解并同意，本软件在激活过程中会采集您设备的硬件特征信息（如CPU、主板、硬盘序列号等）用于生成设备唯一标识，以验证授权的合法性。上述采集信息仅用于授权验证，不会用于其他目的，不会上传至任何第三方服务器。</p>
+
+      <h3>四、免责与责任限制</h3>
+      <p>4.1 本软件依"现状"提供。在法律允许的最大范围内，开发者不对本软件的适用性、准确性、可靠性、及时性或不间断运行作任何明示或暗示的保证。</p>
+      <p>4.2 AI生成内容可能存在不准确、不完整或不适当之处，您应自行判断和评估生成内容的可用性与合法性。开发者不对生成内容的准确性、合法性承担任何责任。</p>
+      <p>4.3 本软件依赖第三方AI模型API服务。因第三方服务中断、变更、限制或不可用导致本软件功能受限的，开发者不承担由此给您造成的损失。</p>
+      <p>4.4 在法律允许的最大范围内，开发者因本协议或本软件引起的任何直接、间接、偶然、特殊或后果性损害，不承担赔偿责任，即使开发者已被告知发生此类损害的可能性。</p>
+      <p>4.5 开发者的全部赔偿责任不超过您为获取本软件使用许可所实际支付的费用总额。</p>
+
+      <h3>五、其他条款</h3>
+      <p>5.1 开发者有权根据法律法规变化、业务调整等原因对本协议进行修订。协议修订后，开发者将通过软件内通知的方式告知您。如您不同意修订后的协议，您有权停止使用本软件。继续使用本软件即视为您同意修订后的协议。</p>
+      <p>5.2 如您违反本协议的任何条款，开发者有权单方面终止您的使用许可，并要求您立即停止使用并销毁本软件的所有副本。</p>
+      <p>5.3 本协议的签订、履行、解释及争议解决均适用中华人民共和国法律（不包括冲突法规则）。因本协议引起的任何争议，双方应友好协商解决；协商不成的，任何一方均有权向开发者所在地有管辖权的人民法院提起诉讼。</p>
+      <p>5.4 本协议中任何条款被认定为无效或不可执行，不影响其他条款的效力。</p>
+      <p>5.5 开发者未行使或延迟行使本协议项下的任何权利，不构成对该权利的放弃。</p>
+      <p>如您对本协议有任何疑问，请通过软件内反馈功能与开发者联系。</p>
+
+      <div class="agreement-quote">
+        <p>你目前看到所有版本都不是我们最终的形态</p>
+        <p>我们一定会走向很远很远的前方</p>
+        <p>科技平权 知识民主</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Topics Recommendation Modal -->
+<div id="topics-modal" class="topics-modal" style="display:none;">
+  <div class="topics-overlay" onclick="closeTopics()"></div>
+  <div class="topics-card">
+    <div class="topics-card-refraction"></div>
+    <button class="modal-close-btn" onclick="closeTopics()" title="关闭">&times;</button>
+    <div class="topics-header">
+      <div class="topics-glow"></div>
+      <h2 class="topics-title">抖音短剧版权中心选题推荐</h2>
+    </div>
+    <div class="topics-body" id="topics-body">
+      <table class="topics-table">
+        <thead>
+          <tr><th class="topics-th-name">选题</th><th class="topics-th-content">内容</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="topics-td-name">选题一：职业众生相</td>
+            <td class="topics-td-content">
+              <p>以职业为切口，描绘不同时代众生相，折射职业背后的人性与社会——</p>
+              <p>古代职人：历史质感+职业细节，仵作 / 讼师 / 匠人 / 医师/古代官职等</p>
+              <p>当代冷门职业：殡葬师/速记员/文物修复师/非遗传承人/乡村医生/餐厅主理人等</p>
+              <p>高压决策行业：急诊 / 法医 / 心理咨询 / 危机谈判等生死与伦理决策的一线</p>
+              <p class="topics-ref">成熟影视作品参考：《入殓师》《我不是药神》《人生大事》《捉妖记》《法医秦明》《寿司之神》《非自然死亡》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题二：地域文化</td>
+            <td class="topics-td-content">
+              <p>县城叙事：聚焦三四线城市与县域青年，描摹日常现实困境与人生抉择，展现被忽视的地域生态</p>
+              <p>城市空间：以城市空间为载体，结合人物内心情绪叙事，打造贴近日常、温情治愈的贴身陪伴感</p>
+              <p>地域特色：立足川渝、东北、西北、西南苗寨、闽南侨乡、藏区牧场等特色地域场景，还原本土人文风貌与独有的在地生活气息</p>
+              <p class="topics-ref">成熟影视作品参考：《路边野餐》《平原上的夏洛克》《隐入尘烟》《三和人才市场：中国日结1500日元的年轻人们》《爱情神话》《可可西里》《冈仁波齐》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题三：悬疑推理</td>
+            <td class="topics-td-content">
+              <p>社会派悬疑：借由犯罪事件，探讨复杂的道德与社会议题</p>
+              <p>密室推理：封闭空间或极端设定下的推理博弈，注重逻辑严密性和叙事反转</p>
+              <p>纪实改编：基于真实案件或社会事件改编，保留纪实质感，增加文学性叙事</p>
+              <p>历史悬案：依托历史上的未解疑案创作，适配多元悬疑化剧情重构与内容创作</p>
+              <p>解谜互动：沉浸式剧情解谜设计，融入趣味线索探索，增强观众参与感与剧情互动体验</p>
+              <p class="topics-ref">成熟影视作品参考：《白日焰火》《暴雪将至》《烈日灼心》 《看不见的客人》《彗星来的那一夜》《十二公民》、《大宋提刑官》《神探狄仁杰》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题四：情感叙事</td>
+            <td class="topics-td-content">
+              <p>人与自然/宠物：以动物或自然为情感纽带，探讨孤独、陪伴与生命意义</p>
+              <p>遗憾美学：不追求大团圆，以遗憾、错过、告别为情感核心，追求余韵悠长</p>
+              <p>文艺感受：以日常生活的琐碎与诗意构建叙事节奏，传递文艺质感</p>
+              <p class="topics-ref">成熟影视作品参考：《五个扑水的少年》《阳光灿烂的日子》《少年的你》《致青春》《忠犬八公的故事》《海街日记》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题五：志怪灵异</td>
+            <td class="topics-td-content">
+              <p>志怪新编：取材《聊斋》、《山海经》、《搜神记》等古典志怪，以现代视角重新解读人妖/人鬼关系中的人性寓言</p>
+              <p>神话解构：对经典神话IP（济公/哪吒/孙悟空/白蛇等）进行反套路重构，注入现代价值观（注：不能颠覆原著及其中人物的核心精神，不可魔改）</p>
+              <p>西方诸神：北欧诸神如奥丁/托尔/洛基、希腊诸神如宙斯/雅典娜/阿波罗、罗马诸神如朱庇特/维纳斯等诸神故事</p>
+              <p class="topics-ref">成熟影视作品参考：《灵魂摆渡》《画皮》《妖猫传》《捉妖记》、《哪吒之魔童降世》《雷神 3：诸神黄昏》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题六：创新形态</td>
+            <td class="topics-td-content">
+              <p>单元剧：由主角串联主线，每集独立故事、共享世界观或主题，单集完成度高</p>
+              <p>情景喜剧：依托固定拍摄场景，以群像角色为核心，主打轻松幽默风格，笑点中暗含现实思考，观赏性与反复回看属性强</p>
+              <p>伪纪录片：采用纪实纪录片拍摄手法，演绎虚构 / 半虚构剧情，弱化表演感，提升画面真实感与观众沉浸体验</p>
+              <p class="topics-ref">成熟影视作品参考：《武林外传》《炊事班的故事》《爱情公寓》、《世界奇妙物语》《不思异：录像》《黑镜》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题七：文化传承</td>
+            <td class="topics-td-content">
+              <p>历史切片：聚焦某位历史人物最艰难或最辉煌的一段经历，切片具备强戏剧冲突or命运转折点</p>
+              <p>民俗仪式：围绕傩戏、庙会、祭祀、婚丧嫁娶等民间仪式，构建具有地域特色的叙事空间</p>
+              <p>古典文化：以古典文学、诗词、书法、绘画为线索，进行现代重构或跨时空叙事</p>
+              <p>传统技艺：以唢呐、昆曲、京剧、刺绣、制瓷、木雕等传统手艺为叙事主线，展现匠人精神与时代的困境</p>
+              <p class="topics-ref">成熟影视作品参考：《康熙王朝》《万历首辅张居正》《百鸟朝凤》《霸王别姬》《闪光少女》《长安三万里》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题八：游戏剧情</td>
+            <td class="topics-td-content">
+              <p>无限流：进入诡异空间，空间内暗藏不明规则、未知危险与隐藏线索</p>
+              <p>时空循环：主角反复经历同一天 / 同一事件，困于重复节点，在试错中寻找真相</p>
+              <p>解谜互动：剧情联动观众，每集结尾留一个谜题，观众需要在评论区 / 弹幕中参与推理</p>
+              <p>网络游戏衍生：依托热门网络游戏IP或真实网络游戏场景，打造衍生剧情，打破虚拟与现实的边界，聚焦游戏世界与现实生活的联结</p>
+              <p class="topics-ref">成熟影视作品参考：《唐朝诡事录》《开端》《十日终焉》</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="topics-td-name">选题九：社会纪实</td>
+            <td class="topics-td-content">
+              <p>时代痛感：聚焦不同代际成年人的真实心境，中年危机/奥德赛时期/退休生活失序等现实成长痛点</p>
+              <p>道德困境：搭建极致冲突情境与两难抉择设定，将人物推入进退两难的处境，深挖人性抉择与内心挣扎</p>
+              <p>社会实验：紧扣当下热门社会议题，改编现实热议事件创作故事，采用无绝对善恶的开放式叙事，引发大众深度思考</p>
+              <p class="topics-ref">成熟影视作品参考：《我不是药神》《熔炉》《亲爱的》《出走的决心》《楚门的世界》《我们与恶的距离》、《坠落的审判》《狗十三》《年少日记》</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+function openAgreement() {
+  var m = document.getElementById('agreement-modal');
+  if (m) { m.style.display = 'flex'; setTimeout(function(){ m.querySelector('.agreement-card').classList.add('reveal'); }, 50); }
+}
+function closeAgreement() {
+  var m = document.getElementById('agreement-modal');
+  var card = m ? m.querySelector('.agreement-card') : null;
+  if (card) card.classList.remove('reveal');
+  setTimeout(function(){ if (m) m.style.display = 'none'; }, 300);
+}
+function openTopics() {
+  var m = document.getElementById('topics-modal');
+  if (m) { m.style.display = 'flex'; setTimeout(function(){ m.querySelector('.topics-card').classList.add('reveal'); }, 50); }
+}
+function closeTopics() {
+  var m = document.getElementById('topics-modal');
+  var card = m ? m.querySelector('.topics-card') : null;
+  if (card) card.classList.remove('reveal');
+  setTimeout(function(){ if (m) m.style.display = 'none'; }, 300);
+}
+</script>
+
+<script>
+/* === Fetch Interceptor: fix URL template placeholders + 15-min timeout === */
+(function(){
+    var _origFetch = window.fetch;
+    window.fetch = function(url, opts) {
+        if (typeof url === 'string' && url.indexOf('${state.currentProject.id}') !== -1) {
+            var realId = state && state.currentProject && state.currentProject.id;
+            if (realId) { url = url.replace('${state.currentProject.id}', realId); }
+        }
+        if (typeof url === 'string') {
+            var _isHeavy = (url.indexOf('videos') !== -1 || url.indexOf('frames') !== -1) && url.indexOf('generate') !== -1;
+            if (_isHeavy) {
+                opts = opts || {};
+                var _heavyCtrl = new AbortController();
+                opts.signal = _heavyCtrl.signal;
+                setTimeout(function(){ _heavyCtrl.abort(); }, 900000);
+            }
+        }
+        return _origFetch.call(this, url, opts);
+    };
+})();
+</script>
+
+<script>
+/* === Periodic License Lock System === */
+var _licenseLocked = false;
+function lockLicenseScreen(reason) {
+    _licenseLocked = true;
+    var overlay = document.getElementById('license-overlay');
+    var app = document.getElementById('app');
+    var status = document.getElementById('license-status');
+    var title = overlay ? overlay.querySelector('.license-logo h1') : null;
+    var subtitle = overlay ? overlay.querySelector('.license-logo p') : null;
+    if (overlay) { overlay.style.display = 'flex'; overlay.style.zIndex = '99999'; }
+    if (app) app.style.display = 'none';
+    if (title) title.textContent = 'Synapse';
+    if (subtitle) subtitle.textContent = reason || '卡密已过期，请重新激活';
+    if (status) {
+        status.textContent = reason || '卡密已过期，请重新激活';
+        status.className = 'license-status';
+        status.style.display = 'block';
+        status.style.color = '#ff6347';
+        status.style.background = 'rgba(255,99,71,0.15)';
+        status.style.border = '1px solid rgba(255,99,71,0.3)';
+    }
+    var btn = document.getElementById('license-activate-btn');
+    if (btn && !btn._wrapped) {
+        btn._wrapped = true;
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (typeof doActivateLicense === 'function') { doActivateLicense(); }
+        });
+        var pollId = setInterval(function() {
+            if (!_licenseLocked) { clearInterval(pollId); return; }
+            var ov = document.getElementById('license-overlay');
+            if (ov && ov.style.display === 'none') { unlockLicenseScreen(); clearInterval(pollId); }
+        }, 1000);
+    }
+}
+function unlockLicenseScreen() {
+    _licenseLocked = false;
+    var overlay = document.getElementById('license-overlay');
+    var app = document.getElementById('app');
+    if (overlay) overlay.style.display = 'none';
+    if (app) app.style.display = '';
+    var title = overlay ? overlay.querySelector('.license-logo h1') : null;
+    var subtitle = overlay ? overlay.querySelector('.license-logo p') : null;
+    if (title) title.textContent = 'Synapse';
+    if (subtitle) subtitle.textContent = 'AI\u6f2b\u5267\u521b\u4f5c\u5e73\u53f0';
+}
+</script>
+
+</body></html>
