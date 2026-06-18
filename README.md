@@ -1,69 +1,76 @@
 # Synapse
 
-> AI 婕墽鍒涗綔骞冲彴锛屼粠鏁呬簨鎷嗚В銆佽鑹茶瀹氥€佸垎闀滄彁绀鸿瘝銆佸浘鍍忕敓鎴愩€佽棰戠敓鎴愬埌鎴愮墖鍚堟垚鐨勪竴浣撳寲妗岄潰宸ヤ綔鍙般€?
-<p>
-  <img alt="Windows" src="https://img.shields.io/badge/Windows-desktop-2563eb">
-  <img alt="AI Video" src="https://img.shields.io/badge/AI-comic%20drama-7c3aed">
-  <img alt="License Key" src="https://img.shields.io/badge/license%20key-required-f97316">
-  <img alt="Source Available" src="https://img.shields.io/badge/source-available-111827">
-</p>
+AI 漫剧创作平台：从小说、分镜、角色画面到视频合成的一体化桌面工作台。
 
-## Overview
+Synapse 面向 AI 漫剧、短剧和故事视频生产，把故事拆解、角色设定、分镜提示词、图像生成、视频生成和本地合成放在同一个桌面工作流里，适合管理长篇故事、多角色一致性和批量镜头生产。
 
-Synapse 鏄负 AI 婕墽銆佺煭鍓у拰鏁呬簨瑙嗛鐢熶骇璁捐鐨勬闈㈣蒋浠躲€傚畠鎶婂師鏈垎鏁ｅ湪鏂囨湰妯″瀷銆佸浘鍍忔ā鍨嬨€佽棰戞ā鍨嬪拰鏈湴鍓緫娴佺▼閲岀殑鐜妭涓叉垚涓€涓伐浣滃彴锛岄€傚悎鐢ㄦ潵绠＄悊闀跨瘒鏁呬簨銆佸瑙掕壊涓€鑷存€у拰鎵归噺闀滃ご鐢熶骇銆?
-鏈粨搴撳叕寮€婧愮爜鐢ㄤ簬瀛︿範銆佸闃呭拰鎶€鏈弬鑰冦€傛寮忚繍琛岃蒋浠堕渶瑕佹湁鏁堝崱瀵嗐€?
-鑾峰彇鍗″瘑銆佸晢涓氭巿鏉冩垨瀹氬埗寮€鍙戣鑱旂郴锛?
-**PhineasGym@outlook.com**
+本仓库公开源码用于学习、审阅和二次开发参考。正式运行软件需要有效卡密。
 
-## Features
-
-- Story pipeline: organize novels, outlines, character arcs, and clip-level structure.
-- Character system: keep character descriptions, visual anchors, and consistency prompts together.
-- Storyboard generation: create reference prompts, tail-frame prompts, motion prompts, and negative prompts.
-- Image workflow: call image generation APIs and manage generated keyframes.
-- Video workflow: call video generation APIs and track clip outputs.
-- Composition workflow: combine generated clips into final videos with local processing.
-- Project workspace: keep each drama project isolated with its own assets and outputs.
-- Windows distribution: build a standard installer with installation path selection and desktop shortcut support.
-
-## License Key
-
-Synapse uses a license-key activation flow. The source code being visible does not mean the activation system can be removed, bypassed, or redistributed as an unlocked build.
-
-For license keys, commercial use, or private deployment:
+卡密、商业授权或定制开发请联系：
 
 **PhineasGym@outlook.com**
 
-## For Developers
+## 功能亮点
 
-This repository is provided for technical review and secondary development reference. Runtime configuration such as model API keys, local projects, generated media, installers, and private license cache files are intentionally excluded from the repository.
+- 剧情整理：围绕小说、短剧内容拆解创作素材。
+- 角色管理：维护角色设定、参考图和一致性提示词。
+- AI 分镜：生成镜头级提示词、动作描述、首尾帧规划。
+- 图像生成：对接图像模型生成关键画面。
+- 视频生成：对接视频模型生成片段。
+- 视频合成：基于本地运行资产拼接、转场并导出最终成片。
+- 项目管理：按项目保存素材、配置、帧图和视频结果。
+- 桌面发布：提供标准 Windows 安装包，支持选择安装路径和创建快捷方式。
 
-Before publishing changes or forks, do not include:
+## 获取安装包
 
-- real API keys
-- license keys
-- private project data
-- generated customer assets
-- installer outputs
-- local cache files
+推荐普通用户通过 GitHub Release 下载官方 Windows 安装包。
 
-## Distribution
+安装包支持：
 
-The official Windows installer bundles the required runtime assets for end users. Users should install Synapse through the packaged installer rather than manually assembling runtime files.
+- 选择安装路径
+- 创建桌面快捷方式
+- 创建开始菜单入口
+- 标准卸载入口
+- 内置运行所需的本地资产
 
-Installer features:
+运行软件时仍需要有效卡密。没有有效卡密时，软件会停留在授权激活界面。
 
-- custom installation path
-- desktop shortcut
-- Start Menu shortcut
-- standard uninstall entry
+## 开发者说明
 
-## Source Availability
+如果你想阅读源码或做二次开发参考，可以使用 Python 环境运行开发版：
 
-This is a source-available project. You may read and study the code, but commercial redistribution, resale, sublicensing, removal of the activation flow, or publishing unlocked derivative builds requires prior written permission from the author.
+```powershell
+pip install -r requirements.txt
+Copy-Item .\user_config.example.json .\user_config.json
+python .\main.py
+```
 
-See [LICENSE](LICENSE) for details.
+然后在软件设置页填入你自己的模型 API Key。
 
-## Contact
+本仓库不会提交本地配置、用户项目、构建产物、安装包、运行缓存和大型本地资产。发布修改或 Fork 前，请确认不要包含：
+
+- 真实 API Key
+- 卡密
+- 用户项目数据
+- 生成的客户素材
+- 安装包产物
+- 本地缓存文件
+
+## 授权与使用限制
+
+Synapse 是 source-available 项目。你可以阅读和研究代码，但源码公开不代表可以移除授权、绕过卡密、转售、重新打包或发布解锁版本。
+
+未获得作者书面许可前，不得：
+
+- 去除、绕过或破坏卡密激活机制
+- 将去授权版本重新发布
+- 商业转售、租赁、打包分发本软件
+- 冒充原作者发布派生版本
+
+完整条款见 [LICENSE](LICENSE)。
+
+## 联系作者
+
+卡密、商业授权、定制开发：
 
 **PhineasGym@outlook.com**
